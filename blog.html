@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog — Whitestorm</title>
+  <meta name="description" content="Insights, stories, and lessons from Whitestorm — India's venture studio building the future of work."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles/main.css"/>
+  <link rel="stylesheet" href="styles/nav.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#fff;color:#1A1A2E;-webkit-font-smoothing:antialiased;}
+    main{padding-top:68px;}
+    a{text-decoration:none;color:inherit;}
+
+    /* ── Hero ── */
+    .blog-hero{
+      padding:5rem 2rem 3.5rem;text-align:center;
+      background:linear-gradient(160deg,#fff 55%,#f0f8ff 100%);
+      position:relative;overflow:hidden;
+    }
+    .blog-hero::before{
+      content:'';position:absolute;inset:0;
+      background-image:radial-gradient(circle,rgba(79,195,247,0.1) 1px,transparent 1px);
+      background-size:34px 34px;
+      mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent);
+    }
+    .blog-hero-inner{position:relative;z-index:2;max-width:680px;margin:0 auto;}
+    .badge{display:inline-block;padding:.3rem 1rem;background:rgba(79,195,247,0.1);border:1px solid rgba(79,195,247,0.25);border-radius:99px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4FC3F7;margin-bottom:1.2rem;}
+    .blog-hero h1{font-family:'Outfit',sans-serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:900;color:#1A1A2E;margin-bottom:.9rem;line-height:1.1;}
+    .blog-hero h1 span{background:linear-gradient(135deg,#4FC3F7,#00E5FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .blog-hero p{font-size:1rem;color:#777;line-height:1.75;}
+
+    /* ── Filter Bar ── */
+    .blog-filter{
+      max-width:1080px;margin:2.5rem auto 0;padding:0 2rem;
+      display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;justify-content:center;
+    }
+    .filter-btn{
+      padding:.42rem 1rem;border-radius:99px;border:1.5px solid rgba(110,110,110,0.15);
+      background:#fff;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:600;
+      color:#777;cursor:pointer;transition:all .2s;
+    }
+    .filter-btn:hover,.filter-btn.active{background:#1A1A2E;color:#fff;border-color:#1A1A2E;}
+    .filter-btn.active{box-shadow:0 4px 16px rgba(26,26,46,0.2);}
+
+    /* ── Blog Grid ── */
+    .blog-main{max-width:1080px;margin:0 auto;padding:3rem 2rem 5rem;}
+
+    .placeholder-note{
+      text-align:center;padding:.7rem 1.2rem;margin-bottom:2.5rem;
+      background:rgba(79,195,247,0.06);border:1px dashed rgba(79,195,247,0.3);
+      border-radius:12px;font-size:.82rem;color:#888;
+      display:flex;align-items:center;justify-content:center;gap:.5rem;
+    }
+
+    .blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2rem;}
+
+    .blog-card{
+      background:#fff;border-radius:20px;overflow:hidden;
+      border:1px solid rgba(110,110,110,0.08);
+      box-shadow:0 4px 20px rgba(0,0,0,0.05);
+      transition:transform .3s ease,box-shadow .3s ease;
+      display:flex;flex-direction:column;
+    }
+    .blog-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(0,0,0,0.1);}
+
+    .blog-card-img{
+      height:180px;position:relative;overflow:hidden;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .blog-card-img .img-label{
+      font-family:'Outfit',sans-serif;font-size:2rem;font-weight:900;
+      color:rgba(255,255,255,0.35);letter-spacing:.05em;z-index:1;
+    }
+    .blog-card-img::after{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,0.08));
+    }
+
+    /* Gradient themes per card */
+    .grad-1{background:linear-gradient(135deg,#1A1A2E 0%,#0d3b6e 100%);}
+    .grad-2{background:linear-gradient(135deg,#C8733A 0%,#F4A261 100%);}
+    .grad-3{background:linear-gradient(135deg,#0d3b6e 0%,#4FC3F7 100%);}
+    .grad-4{background:linear-gradient(135deg,#1e3a1e 0%,#2d7a4a 100%);}
+
+    .blog-card-body{padding:1.5rem;flex:1;display:flex;flex-direction:column;gap:.6rem;}
+
+    .blog-meta{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
+    .blog-category{
+      display:inline-block;padding:.2rem .65rem;border-radius:99px;
+      font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    }
+    .cat-startups{background:rgba(244,162,97,0.12);color:#C8733A;}
+    .cat-tech{background:rgba(79,195,247,0.12);color:#0d8bbd;}
+    .cat-business{background:rgba(45,122,74,0.1);color:#2d7a4a;}
+    .cat-updates{background:rgba(26,26,46,0.07);color:#555;}
+
+    .blog-date{font-size:.72rem;color:#bbb;font-weight:500;}
+    .blog-card h3{font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:800;color:#1A1A2E;line-height:1.4;}
+    .blog-excerpt{font-size:.85rem;color:#777;line-height:1.7;flex:1;}
+    .blog-footer{display:flex;align-items:center;justify-content:space-between;margin-top:.5rem;padding-top:.8rem;border-top:1px solid rgba(110,110,110,0.07);}
+    .blog-author{display:flex;align-items:center;gap:.5rem;}
+    .author-avatar{
+      width:28px;height:28px;border-radius:50%;
+      background:linear-gradient(135deg,#4FC3F7,#00E5FF);
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:800;color:#fff;
+    }
+    .author-name{font-size:.78rem;color:#777;font-weight:500;}
+    .read-more{
+      font-size:.78rem;font-weight:700;color:#4FC3F7;
+      display:flex;align-items:center;gap:.3rem;
+      transition:gap .2s;
+    }
+    .blog-card:hover .read-more{gap:.5rem;}
+    .read-more svg{width:13px;height:13px;}
+
+    /* ── Featured Post ── */
+    .blog-featured{
+      grid-column:1/-1;
+      display:grid;grid-template-columns:1fr 1fr;gap:0;
+      border-radius:24px;overflow:hidden;
+      border:1px solid rgba(110,110,110,0.08);
+      box-shadow:0 8px 40px rgba(0,0,0,0.08);
+      transition:transform .3s,box-shadow .3s;
+    }
+    .blog-featured:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.12);}
+    .blog-featured .blog-card-img{height:100%;min-height:240px;border-radius:0;}
+    .blog-featured .blog-card-body{padding:2rem 2rem;justify-content:center;}
+    .blog-featured .blog-card h3{font-size:1.35rem;}
+    .blog-featured .blog-excerpt{font-size:.9rem;}
+    .featured-tag{
+      display:inline-block;padding:.22rem .7rem;background:rgba(79,195,247,0.1);
+      border:1px solid rgba(79,195,247,0.2);border-radius:99px;
+      font-size:.68rem;font-weight:700;letter-spacing:.06em;color:#4FC3F7;margin-bottom:.5rem;
+    }
+    @media(max-width:640px){.blog-featured{grid-template-columns:1fr;}.blog-featured .blog-card-img{min-height:180px;}}
+
+    /* ── Newsletter ── */
+    .newsletter{
+      background:linear-gradient(135deg,#1A1A2E 0%,#0d1b35 100%);
+      border-radius:28px;padding:3.5rem 2.5rem;text-align:center;
+      margin:3rem auto 0;max-width:1080px;margin-left:2rem;margin-right:2rem;
+      position:relative;overflow:hidden;
+    }
+    .newsletter::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(79,195,247,0.12),transparent);}
+    .newsletter h2{font-family:'Outfit',sans-serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;color:#fff;margin-bottom:.6rem;position:relative;}
+    .newsletter p{font-size:.95rem;color:rgba(255,255,255,.5);margin-bottom:1.8rem;position:relative;}
+    .newsletter-form{
+      display:flex;gap:.6rem;max-width:440px;margin:0 auto;position:relative;
+    }
+    @media(max-width:480px){.newsletter-form{flex-direction:column;}}
+    .newsletter-form input{
+      flex:1;padding:.8rem 1.2rem;border:1.5px solid rgba(255,255,255,.12);
+      border-radius:12px;background:rgba(255,255,255,.07);color:#fff;
+      font-family:'Inter',sans-serif;font-size:.9rem;outline:none;
+      transition:border-color .2s;
+    }
+    .newsletter-form input::placeholder{color:rgba(255,255,255,.3);}
+    .newsletter-form input:focus{border-color:rgba(79,195,247,.5);}
+    .newsletter-form button{
+      padding:.8rem 1.4rem;border:none;border-radius:12px;
+      background:linear-gradient(135deg,#4FC3F7,#00E5FF);
+      color:#1A1A2E;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;
+      cursor:pointer;transition:transform .2s,box-shadow .2s;white-space:nowrap;
+    }
+    .newsletter-form button:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(79,195,247,0.4);}
+    .newsletter-note{font-size:.72rem;color:rgba(255,255,255,.25);margin-top:.8rem;position:relative;}
+
+    /* ── Footer ── */
+    footer{background:#1A1A2E;color:rgba(255,255,255,.6);padding:3rem 2rem;margin-top:4rem;position:relative;}
+    footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(79,195,247,.4),transparent);}
+    .footer-inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:2rem;}
+    .footer-brand{display:flex;align-items:center;gap:.7rem;}
+    .footer-brand img{width:36px;height:36px;object-fit:contain;border-radius:6px;opacity:.85;}
+    .footer-name{font-family:'Outfit',sans-serif;font-size:1rem;font-weight:800;letter-spacing:.14em;color:#fff;}
+    .footer-nav{display:flex;gap:2rem;flex-wrap:wrap;}
+    .footer-nav a{font-size:.85rem;color:rgba(255,255,255,.5);transition:color .2s;text-decoration:none;}
+    .footer-nav a:hover{color:#fff;}
+    .footer-copy{width:100%;text-align:center;font-size:.78rem;color:rgba(255,255,255,.25);padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.06);margin-top:1rem;}
+  </style>
+</head>
+<body>
+
+<nav class="nav nav--visible" id="main-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand"><img src="assets/logo_light.jpg" alt="Whitestorm"/><span>WHITESTORM</span></a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="nav-links" role="list">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="index.html#startup-library" class="nav-link">Ventures</a></li>
+      <li><a href="about.html" class="nav-link">About</a></li>
+      <li><a href="blog.html" class="nav-link nav-link--active">Blog</a></li>
+      <li><a href="faq.html" class="nav-link">FAQ</a></li>
+      <li><a href="contact.html" class="nav-link nav-link--cta">Contact Us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <section class="blog-hero">
+    <div class="blog-hero-inner">
+      <span class="badge">Blog</span>
+      <h1>Insights &amp; <span>Stories</span></h1>
+      <p>Lessons from building, thoughts on the future of work, and stories from inside Whitestorm's ventures.</p>
+    </div>
+  </section>
+
+  <!-- FILTER PILLS -->
+  <div class="blog-filter">
+    <button class="filter-btn active" onclick="filterPosts('all',this)">All</button>
+    <button class="filter-btn" onclick="filterPosts('startups',this)">Startups</button>
+    <button class="filter-btn" onclick="filterPosts('tech',this)">Tech</button>
+    <button class="filter-btn" onclick="filterPosts('business',this)">Business</button>
+    <button class="filter-btn" onclick="filterPosts('updates',this)">Updates</button>
+  </div>
+
+  <!-- BLOG GRID -->
+  <div class="blog-main">
+
+    <div class="placeholder-note">
+      📝 These are sample/placeholder posts. Real articles coming soon — <a href="contact.html" style="color:#4FC3F7;">subscribe below</a> to get notified.
+    </div>
+
+    <div class="blog-grid" id="blog-grid">
+
+      <!-- Featured -->
+      <article class="blog-card blog-featured" data-category="startups">
+        <div class="blog-card-img grad-1"><span class="img-label">WS</span></div>
+        <div class="blog-card-body">
+          <span class="featured-tag">✦ Featured</span>
+          <div class="blog-meta">
+            <span class="blog-category cat-startups">Startups</span>
+            <span class="blog-date">July 10, 2025</span>
+          </div>
+          <h3>Why We Built Shramico: The Story Behind India's Construction Hiring Platform</h3>
+          <p class="blog-excerpt">India has over 60 million construction workers — yet hiring them remains broken, informal, and deeply inefficient. Here's what we found when we spent three months in the field, and why we knew we had to build Shramico.</p>
+          <div class="blog-footer">
+            <div class="blog-author">
+              <div class="author-avatar">SR</div>
+              <span class="author-name">Swapnil Rathod</span>
+            </div>
+            <span class="read-more">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="blog-card" data-category="business">
+        <div class="blog-card-img grad-2"><span class="img-label">GW</span></div>
+        <div class="blog-card-body">
+          <div class="blog-meta">
+            <span class="blog-category cat-business">Business</span>
+            <span class="blog-date">June 28, 2025</span>
+          </div>
+          <h3>The Future of Gig Work in India: Opportunity or Exploitation?</h3>
+          <p class="blog-excerpt">India's gig economy is growing faster than any regulatory framework can keep up. We explore what this means for workers, platforms, and the future of labour in the country.</p>
+          <div class="blog-footer">
+            <div class="blog-author">
+              <div class="author-avatar" style="background:linear-gradient(135deg,#F4A261,#C8733A);">BC</div>
+              <span class="author-name">Balaji Chauhan</span>
+            </div>
+            <span class="read-more">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="blog-card" data-category="startups">
+        <div class="blog-card-img grad-3"><span class="img-label">⚡</span></div>
+        <div class="blog-card-body">
+          <div class="blog-meta">
+            <span class="blog-category cat-startups">Startups</span>
+            <span class="blog-date">June 12, 2025</span>
+          </div>
+          <h3>How Whitestorm Chooses Its Next Venture: Our Selection Framework</h3>
+          <p class="blog-excerpt">We don't pick ideas from a whiteboard. Our selection process involves market sizing, field research, unit economics modeling, and a clear-eyed assessment of why we are the right team to build this.</p>
+          <div class="blog-footer">
+            <div class="blog-author">
+              <div class="author-avatar">SR</div>
+              <span class="author-name">Swapnil Rathod</span>
+            </div>
+            <span class="read-more">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="blog-card" data-category="updates">
+        <div class="blog-card-img grad-4"><span class="img-label">🌱</span></div>
+        <div class="blog-card-body">
+          <div class="blog-meta">
+            <span class="blog-category cat-updates">Updates</span>
+            <span class="blog-date">May 30, 2025</span>
+          </div>
+          <h3>Building in Public: Our Approach to Transparent Startups</h3>
+          <p class="blog-excerpt">We believe in sharing our journey — the wins, the failures, and the lessons in between. Here's why we decided to build Whitestorm's ventures in public, and what we've learned so far.</p>
+          <div class="blog-footer">
+            <div class="blog-author">
+              <div class="author-avatar" style="background:linear-gradient(135deg,#2d7a4a,#1e3a1e);">BC</div>
+              <span class="author-name">Balaji Chauhan</span>
+            </div>
+            <span class="read-more">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- end blog-grid -->
+
+    <!-- Newsletter -->
+    <div class="newsletter">
+      <h2>Stay in the Loop</h2>
+      <p>Get our latest insights, venture updates, and startup stories — straight to your inbox. No spam, ever.</p>
+      <form class="newsletter-form" onsubmit="handleNewsletterSubmit(event)">
+        <input type="email" placeholder="Enter your email address" required id="newsletter-email"/>
+        <button type="submit">Subscribe →</button>
+      </form>
+      <p class="newsletter-note">Join our growing community. Unsubscribe anytime.</p>
+    </div>
+
+  </div><!-- end blog-main -->
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand"><img src="assets/logo_light.jpg" alt="Whitestorm"/><span class="footer-name">WHITESTORM</span></div>
+    <nav class="footer-nav">
+      <a href="index.html">Home</a><a href="about.html">About</a>
+      <a href="blog.html">Blog</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a>
+    </nav>
+    <p class="footer-copy">&copy; 2025 Whitestorm. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  const toggle=document.getElementById('nav-toggle'),links=document.getElementById('nav-links');
+  if(toggle)toggle.addEventListener('click',()=>{const o=links.classList.toggle('nav-links--open');toggle.classList.toggle('nav-toggle--open',o);toggle.setAttribute('aria-expanded',o);});
+  const nav=document.getElementById('main-nav');
+  window.addEventListener('scroll',()=>nav.classList.toggle('nav--scrolled',window.scrollY>60),{passive:true});
+
+  function filterPosts(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.blog-card').forEach(card => {
+      if (cat === 'all' || card.dataset.category === cat) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  function handleNewsletterSubmit(e) {
+    e.preventDefault();
+    const input = document.getElementById('newsletter-email');
+    const btn = e.target.querySelector('button');
+    btn.textContent = '✅ Subscribed!';
+    btn.style.background = 'linear-gradient(135deg,#2d7a4a,#4ade80)';
+    input.value = '';
+    setTimeout(() => { btn.textContent = 'Subscribe →'; btn.style.background = ''; }, 3000);
+  }
+</script>
+</body>
+</html>
