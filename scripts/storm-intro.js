@@ -1,7 +1,68 @@
 /* ═══════════════════════════════════════════════════
-   WHITESTORM — storm-intro.js
-   Circular rotating storm / vortex
+   WHITESTORMM — storm-intro.js
+   Thunder & Lightning Intro
 ═══════════════════════════════════════════════════ */
+
+class LightningBolt {
+  constructor(startX, startY, targetX, targetY) {
+    this.segments = [];
+    this.alpha = 1;
+    this.life = 0;
+    this.maxLife = 8 + Math.random() * 15; // frames
+    this.generatePath(startX, startY, targetX, targetY);
+  }
+
+  generatePath(sx, sy, tx, ty) {
+    this.segments.push({x: sx, y: sy});
+    let currentX = sx;
+    let currentY = sy;
+    
+    // distance
+    const dx = tx - sx;
+    const dy = ty - sy;
+    const distance = Math.hypot(dx, dy);
+    
+    let numSteps = Math.floor(distance / 25); // rough segment length
+    if(numSteps < 5) numSteps = 5;
+    
+    for(let i=0; i<numSteps; i++) {
+       // move towards target with randomness
+       const progress = (i+1)/numSteps;
+       const expectedX = sx + dx * progress;
+       const expectedY = sy + dy * progress;
+       
+       // random jaggedness
+       const jitter = 70 * (1 - Math.pow(progress, 2)); // less jitter near the end
+       currentX = expectedX + (Math.random() - 0.5) * jitter;
+       currentY = expectedY + (Math.random() - 0.5) * jitter;
+       
+       this.segments.push({x: currentX, y: currentY});
+    }
+  }
+
+  draw(ctx, fadeOut) {
+    if (this.life >= this.maxLife) return;
+    this.alpha = (1 - (this.life / this.maxLife)) * fadeOut;
+    
+    ctx.beginPath();
+    ctx.moveTo(this.segments[0].x, this.segments[0].y);
+    for (let i = 1; i < this.segments.length; i++) {
+      ctx.lineTo(this.segments[i].x, this.segments[i].y);
+    }
+    
+    // Inner core
+    ctx.strokeStyle = `rgba(255, 255, 255, ${this.alpha})`;
+    ctx.lineWidth = 1.5 + Math.random() * 2.5;
+    
+    // Glow
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = '#4FC3F7';
+    ctx.stroke();
+    
+    ctx.shadowBlur = 0; // reset
+    this.life++;
+  }
+}
 
 class StormIntro {
   constructor() {
@@ -9,14 +70,13 @@ class StormIntro {
     this.canvas    = document.getElementById('storm-canvas');
     this.logoFlash = document.getElementById('storm-logo-flash');
     this.ctx       = this.canvas.getContext('2d');
-    this.particles = [];
     this.startTime = null;
-    this.duration  = 2600;
+    this.duration  = 2400; // intense short duration
     this.rafId     = null;
+    this.bolts     = [];
 
     this.resize();
     window.addEventListener('resize', () => this.resize());
-    this.spawnVortex();
     this.run();
   }
 
@@ -25,30 +85,6 @@ class StormIntro {
     this.canvas.height = window.innerHeight;
     this.W  = this.canvas.width;
     this.H  = this.canvas.height;
-    this.cx = this.W / 2;
-    this.cy = this.H / 2;
-  }
-
-  spawnVortex() {
-    const count = 500;
-    for (let i = 0; i < count; i++) {
-      // distribute more particles near the center
-      const t = Math.pow(Math.random(), 1.5);
-      const radius = 20 + (1 - t) * Math.max(this.W, this.H) * 0.7;
-      const angle = Math.random() * Math.PI * 2;
-      
-      this.particles.push({
-        radius,
-        angle,
-        speed: (0.02 + Math.random() * 0.04) * (1 - t * 0.5), // inner particles rotate faster
-        inwardSpeed: 0.5 + Math.random() * 2,
-        size: 0.8 + Math.random() * 2.5,
-        alpha: 0.1 + Math.random() * 0.5,
-        colorVal: 180 + Math.floor(Math.random() * 75), // white/grey
-        delay: Math.random() * 0.3,
-        trail: [] // store past positions to draw streaks
-      });
-    }
   }
 
   run() {
@@ -60,55 +96,62 @@ class StormIntro {
     const elapsed  = now - this.startTime;
     const progress = Math.min(elapsed / this.duration, 1);
     
-    // Start fading out the entire canvas after 70%
-    const fadeOut = progress < 0.7 ? 1 : Math.max(0, 1 - (progress - 0.7) / 0.3);
-
-    // slight blur for motion trail effect
-    this.ctx.fillStyle = `rgba(255, 255, 255, 0.25)`;
-    this.ctx.fillRect(0, 0, this.W, this.H);
-
-    for (const p of this.particles) {
-      const pProgress = Math.max(0, (progress - p.delay) / (1 - p.delay));
-      if (pProgress <= 0) continue;
-
-      const appear = Math.min(pProgress * 5, 1);
-      const alpha  = p.alpha * fadeOut * appear;
-      if (alpha <= 0.01) continue;
-
-      // Update position
-      p.angle += p.speed;
-      p.radius = Math.max(0, p.radius - p.inwardSpeed); // spiral inward
-      
-      const x = this.cx + Math.cos(p.angle) * p.radius;
-      const y = this.cy + Math.sin(p.angle) * p.radius;
-
-      // Draw particle
-      this.ctx.globalAlpha = alpha;
-      this.ctx.fillStyle = `rgb(${p.colorVal}, ${p.colorVal}, ${p.colorVal})`;
-      
-      // Draw as small lines to simulate fast rotation
-      this.ctx.beginPath();
-      if (p.trail.length > 0) {
-        this.ctx.moveTo(p.trail[0].x, p.trail[0].y);
-        this.ctx.lineTo(x, y);
-        this.ctx.strokeStyle = `rgb(${p.colorVal}, ${p.colorVal}, ${p.colorVal})`;
-        this.ctx.lineWidth = p.size;
-        this.ctx.stroke();
-      } else {
-        this.ctx.arc(x, y, p.size, 0, Math.PI * 2);
-        this.ctx.fill();
-      }
-      
-      // Update trail
-      p.trail.push({ x, y });
-      if (p.trail.length > 3) p.trail.shift();
+    // Fade out everything at the very end
+    const fadeOut = progress < 0.75 ? 1 : Math.max(0, 1 - (progress - 0.75) / 0.25);
+    
+    // Background clear with trailing effect
+    let bgAlpha = 0.3; // fade out old bolts
+    let bgColor = '#0A0B10';
+    
+    // Random thunder flash
+    const isFlashing = Math.random() > 0.92 && progress < 0.8;
+    if (isFlashing) {
+      bgColor = '#FFFFFF';
+      bgAlpha = 0.6;
     }
-
+    
+    this.ctx.globalAlpha = bgAlpha * fadeOut;
+    this.ctx.fillStyle = bgColor;
+    this.ctx.fillRect(0, 0, this.W, this.H);
     this.ctx.globalAlpha = 1;
 
-    // Show the circular cropped logo during the flash phase
-    if (progress >= 0.7 && progress < 0.95) {
+    // Generate new bolts sweeping from top-left to bottom-right
+    if (progress < 0.8 && Math.random() > 0.55) {
+      // Origin moves along diagonal, with some randomness
+      const currentOriginX = (this.W * 1.2) * progress - (this.W * 0.2) + (Math.random() - 0.5) * 300;
+      const currentOriginY = (this.H * 1.2) * progress - (this.H * 0.2) + (Math.random() - 0.5) * 300;
+      
+      // Target is further down the diagonal
+      const targetX = currentOriginX + this.W * 0.4 + (Math.random() - 0.5) * 500;
+      const targetY = currentOriginY + this.H * 0.4 + (Math.random() - 0.5) * 500;
+      
+      this.bolts.push(new LightningBolt(currentOriginX, currentOriginY, targetX, targetY));
+      
+      // Branch bolt
+      if (Math.random() > 0.4) {
+        const branchX = currentOriginX + (Math.random() - 0.2) * 600;
+        const branchY = currentOriginY + Math.random() * 600;
+        this.bolts.push(new LightningBolt(currentOriginX, currentOriginY, branchX, branchY));
+      }
+    }
+
+    // Draw bolts
+    for (let i = this.bolts.length - 1; i >= 0; i--) {
+      this.bolts[i].draw(this.ctx, fadeOut);
+      if (this.bolts[i].life >= this.bolts[i].maxLife) {
+        this.bolts.splice(i, 1);
+      }
+    }
+
+    // Show the circular cropped logo during the main flash phase
+    if (progress >= 0.6 && progress < 0.9) {
       this.logoFlash.classList.add('visible');
+      // intense shadow on the logo during lightning
+      if (isFlashing) {
+         this.logoFlash.style.opacity = '0.8';
+      } else {
+         this.logoFlash.style.opacity = '0.4';
+      }
     } else {
       this.logoFlash.classList.remove('visible');
     }
@@ -129,7 +172,7 @@ class StormIntro {
       const cloudCanvas = document.getElementById('cloud-canvas');
       if (cloudCanvas) cloudCanvas.classList.add('visible');
       window.dispatchEvent(new CustomEvent('stormDone'));
-    }, 700);
+    }, 800);
   }
 }
 

@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   WHITESTORM — main.js
+   WHITESTORMM — main.js
    App initialisation:
    - Ambient cloud canvas background
    - Scroll reveal animations
@@ -77,7 +77,7 @@ class CloudBackground {
 class ScrollReveal {
   constructor() {
     this.targets = document.querySelectorAll(
-      '.about-badge, .about-title, .about-description, .stats-row, .founder-card, .library-header, .carousel-nav'
+      '.about-badge, .about-title, .about-description, .stats-row, .founder-card, .shramico-header, .product-showcase, .feature-card'
     );
 
     this.targets.forEach(el => el.classList.add('reveal'));
@@ -161,15 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupScrollEffects();
   setupNav();
 
-  // Hide swipe hint after first interaction
-  const hint = document.getElementById('swipe-hint');
-  const hideHint = () => {
-    if (hint) hint.style.opacity = '0';
-  };
-  document.addEventListener('mousedown', hideHint, { once: true });
-  document.addEventListener('touchstart', hideHint, { once: true });
-  document.addEventListener('keydown',    hideHint, { once: true });
-
-  console.log('%c⚡ WHITESTORM', 'color:#4FC3F7;font-size:20px;font-weight:900;');
-  console.log('%cBuilding Tomorrow\'s Ventures, Today.', 'color:#9E9E9E;font-size:12px;');
+  console.log('%c⚡ WHITESTORMM', 'color:#4FC3F7;font-size:20px;font-weight:900;');
+  console.log('%cBuilding Tomorrow, Today.', 'color:#9E9E9E;font-size:12px;');
 });
