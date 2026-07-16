@@ -24,7 +24,7 @@ const LandingPage = () => {
     <div className="landing-page">
       
       {/* 2. PRODUCTS SECTION */}
-      <section className="lp-section">
+      <section id="innovations" className="lp-section">
         <div className="lp-container">
           <h2 className="lp-heading scroll-fade">Our Innovations</h2>
           

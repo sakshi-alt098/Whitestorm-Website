@@ -19,7 +19,7 @@ const Navbar = () => {
           <span>WHITESTORMM</span>
         </div>
         <div className="nav-links">
-          <a href="#">Products</a>
+          <a href="#innovations">Products</a>
           <a href="#">Philosophy</a>
           <a href="#">Company</a>
           <a href="#">Careers</a>

@@ -68,60 +68,24 @@ const BubbleCanvas = ({ liquidColor, fillLevel, width = 320 }) => {
         ctx.save();
         ctx.globalAlpha = this.opacity;
 
-        // --- 1) Dark edge (shadow at the bottom-right of bubble) ---
-        const shadowGrad = ctx.createRadialGradient(x, y, r * 0.6, x, y, r);
-        shadowGrad.addColorStop(0, `rgba(0,0,0,0)`);
-        shadowGrad.addColorStop(1, `rgba(0,0,0,0.35)`);
+        // --- Simplified Fast Draw ---
         ctx.beginPath();
         ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = shadowGrad;
+        ctx.fillStyle = `rgba(${tintR},${tintG},${tintB},0.4)`;
         ctx.fill();
 
-        // --- 2) Core of bubble — semi-transparent tinted fill ---
-        const coreGrad = ctx.createRadialGradient(x, y, 0, x, y, r);
-        coreGrad.addColorStop(0, `rgba(${tintR},${tintG},${tintB},0.08)`);
-        coreGrad.addColorStop(1, `rgba(${tintR},${tintG},${tintB},0.25)`);
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = coreGrad;
-        ctx.fill();
-
-        // --- 3) Primary specular highlight (top-left bright spot) ---
-        const hlX = x - r * 0.38;
-        const hlY = y - r * 0.38;
-        const hl = ctx.createRadialGradient(hlX, hlY, 0, hlX, hlY, r * 0.55);
-        hl.addColorStop(0, 'rgba(255,255,255,0.92)');
-        hl.addColorStop(0.5, 'rgba(255,255,255,0.35)');
-        hl.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = hl;
-        ctx.fill();
-
-        // --- 4) Secondary micro-highlight (bottom-right) ---
-        const hl2X = x + r * 0.42;
-        const hl2Y = y + r * 0.42;
-        const hl2 = ctx.createRadialGradient(hl2X, hl2Y, 0, hl2X, hl2Y, r * 0.25);
-        hl2.addColorStop(0, 'rgba(255,255,255,0.45)');
-        hl2.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = hl2;
-        ctx.fill();
-
-        // --- 5) Rim / thin refractive edge ---
         ctx.beginPath();
         ctx.arc(x, y, r, 0, Math.PI * 2);
         ctx.strokeStyle = 'rgba(255,255,255,0.5)';
-        ctx.lineWidth = 0.8;
+        ctx.lineWidth = 1;
         ctx.stroke();
 
         ctx.restore();
       }
     }
 
-    // Spawn 60 bubbles staggered across the height
-    bubblesRef.current = Array.from({ length: 60 }).map((_, i) => {
+    // Spawn 15 bubbles staggered across the height (reduced from 60 to stop lag)
+    bubblesRef.current = Array.from({ length: 15 }).map((_, i) => {
       const b = new Bubble();
       b.y = Math.random() * H; // start scattered, not all at bottom
       return b;

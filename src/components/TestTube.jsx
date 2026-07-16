@@ -127,10 +127,10 @@ const TestTube = ({
 };
 
 function getDarkerColor(hexColor) {
-  if (hexColor === '#22c55e') return '#052e16';
-  if (hexColor === '#3b82f6') return '#1e3a8a';
-  if (hexColor === '#a855f7') return '#3b0764';
-  if (hexColor === '#ef4444') return '#450a0a';
+  if (hexColor === '#22c55e') return '#16a34a'; /* Luminous green */
+  if (hexColor === '#3b82f6') return '#2563eb'; /* Luminous blue */
+  if (hexColor === '#a855f7') return '#9333ea'; /* Luminous purple */
+  if (hexColor === '#ef4444') return '#dc2626'; /* Luminous red */
   return hexColor;
 }
 
