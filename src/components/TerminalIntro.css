@@ -1,0 +1,51 @@
+/* ───────── TERMINAL INTRO ───────── */
+.terminal-overlay {
+  position: fixed; inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 40px;
+  pointer-events: all;
+  transition: opacity 1.5s ease-in-out;
+}
+
+/* Phase 4: Fade out to reveal the lab */
+.terminal-overlay.phase-4 {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.terminal-text {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.2rem;
+  color: #fff;
+  letter-spacing: 2px;
+  line-height: 1.8;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.terminal-line {
+  min-height: 1.8rem;
+}
+
+.text-online {
+  color: #22c55e;
+  font-weight: bold;
+  text-shadow: 0 0 10px #22c55e;
+}
+
+.cursor {
+  width: 12px; height: 20px;
+  background: #fff;
+  margin-top: 5px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
