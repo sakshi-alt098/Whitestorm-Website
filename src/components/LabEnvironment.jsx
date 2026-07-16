@@ -194,7 +194,7 @@ const LabEnvironment = ({ startAssembly = true }) => {
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
-      style={{ touchAction: 'none' }} 
+      style={{ touchAction: 'pan-y' }} 
     >
       <div
         className="floor-ambient"
