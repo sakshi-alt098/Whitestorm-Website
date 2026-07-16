@@ -40,25 +40,37 @@ const LabEnvironment = ({ startAssembly = true }) => {
     velocity: 0,
     isDragging: false,
     lastX: 0,
-    lastTime: 0
+    lastTime: 0,
+    forceUpdate: true // Force first render
   });
 
   // 60FPS Hardware-accelerated physics loop
   const updatePhysics = useCallback(() => {
     const p = physics.current;
+    let needsUpdate = false;
     
-    if (!p.isDragging) {
+    if (p.isDragging) {
+      needsUpdate = true;
+    } else {
       // High-performance critically damped spring
       const diff = p.targetRotation - p.rotation;
-      p.velocity += diff * 0.15; // Increased stiffness for faster snap
-      p.velocity *= 0.75;        // Tuned friction to prevent bouncing
-      p.rotation += p.velocity;
+      if (Math.abs(diff) > 0.001 || Math.abs(p.velocity) > 0.001) {
+        p.velocity += diff * 0.15; // Increased stiffness for faster snap
+        p.velocity *= 0.75;        // Tuned friction to prevent bouncing
+        p.rotation += p.velocity;
+        needsUpdate = true;
+      } else {
+        // Snap perfectly and rest
+        p.rotation = p.targetRotation;
+        p.velocity = 0;
+      }
     }
 
-    // Force GPU layer with translate3d
-    if (carouselRef.current) {
-      carouselRef.current.style.transform = `translate3d(0, 0, -${RADIUS}px) rotateY(${p.rotation}deg)`;
-    }
+    if (needsUpdate || p.forceUpdate) {
+      // Force GPU layer with translate3d
+      if (carouselRef.current) {
+        carouselRef.current.style.transform = `translate3d(0, 0, -${RADIUS}px) rotateY(${p.rotation}deg)`;
+      }
 
     // Billboarding & Scale for each tube
     cellsRef.current.forEach((cell, i) => {
@@ -90,6 +102,9 @@ const LabEnvironment = ({ startAssembly = true }) => {
         inner.style.filter = `brightness(${brightness})`;
       }
     });
+    
+      p.forceUpdate = false;
+    }
 
     reqRef.current = requestAnimationFrame(updatePhysics);
   }, []);
@@ -187,11 +202,6 @@ const LabEnvironment = ({ startAssembly = true }) => {
       onWheel={onWheel}
       style={{ touchAction: 'none' }} 
     >
-      <header className="lab-header">
-        <h1>WHITESTORMM</h1>
-        <p>Advanced Biogenetic Reactor</p>
-      </header>
-
       <div
         className="floor-ambient"
         style={{ background: `radial-gradient(ellipse at 50% 100%, ${activeColor}2a 0%, transparent 70%)` }}
@@ -254,7 +264,8 @@ const LabEnvironment = ({ startAssembly = true }) => {
                   return (
                     <g key={`pipe-${i}`}>
                       <path d={path} className="pipe-outer" />
-                      <path d={path} className="pipe-inner" stroke={p.color} filter="url(#glow)" />
+                      {/* Removed expensive SVG blur filter here to fix layout thrashing */}
+                      <path d={path} className="pipe-inner" stroke={p.color} />
                       <circle cx={ex} cy={ey} r="8" fill="#333" stroke="#555" strokeWidth="2" />
                     </g>
                   );

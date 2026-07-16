@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import LabEnvironment from './components/LabEnvironment'
 import TerminalIntro from './components/TerminalIntro'
 import LandingPage from './components/LandingPage'
+import Navbar from './components/Navbar'
 import './index.css'
 
 function App() {
@@ -32,8 +33,13 @@ function App() {
       {/* Render Lab in background. Start assembly sequence when intro finishes. */}
       <LabEnvironment startAssembly={introFinished} />
 
-      {/* Render the rest of the premium website structure after intro */}
-      {introFinished && <LandingPage />}
+      {/* Render the premium website structure after intro */}
+      {introFinished && (
+        <>
+          <Navbar />
+          <LandingPage />
+        </>
+      )}
     </>
   )
 }
