@@ -141,11 +141,6 @@ const LabEnvironment = ({ startAssembly = true }) => {
   const next = () => snapTo(activeIndex + 1);
   const prev = () => snapTo(activeIndex - 1);
 
-  const onWheel = (e) => {
-    if (e.deltaY > 0) next();
-    else prev();
-  };
-
   // ── Drag Interaction ──
   const onPointerDown = (e) => {
     if (assemblyPhase < 4) return; // Prevent interaction during assembly
@@ -199,7 +194,6 @@ const LabEnvironment = ({ startAssembly = true }) => {
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
-      onWheel={onWheel}
       style={{ touchAction: 'none' }} 
     >
       <div
