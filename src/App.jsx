@@ -23,10 +23,6 @@ function App() {
             <feBlend mode="multiply" in="SourceGraphic" in2="monoNoise" />
           </filter>
 
-          <filter id="liquid-turbulence">
-            <feTurbulence type="fractalNoise" baseFrequency="0.02 0.05" numOctaves="3" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="30" xChannelSelector="R" yChannelSelector="G" />
-          </filter>
         </defs>
       </svg>
       

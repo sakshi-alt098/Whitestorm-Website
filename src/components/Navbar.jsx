@@ -16,6 +16,14 @@ const Navbar = () => {
     <nav className={`ws-navbar ${scrolled ? 'nav-scrolled' : ''}`}>
       <div className="nav-container">
         <div className="nav-logo">
+          <div className="logo-icon-wrap">
+            <div className="logo-ring"></div>
+            <div className="logo-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="nav-logo-svg">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+              </svg>
+            </div>
+          </div>
           <span>WHITESTORMM</span>
         </div>
         <div className="nav-links">

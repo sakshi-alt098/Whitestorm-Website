@@ -27,7 +27,7 @@ const BubbleCanvas = ({ liquidColor, fillLevel, width = 320 }) => {
     const tintB = rgb.b;
 
     // ---------------------------------
-    // Bubble class with real physics
+    // Spark/Particle class with real physics
     // ---------------------------------
     class Bubble {
       constructor() {
@@ -35,22 +35,22 @@ const BubbleCanvas = ({ liquidColor, fillLevel, width = 320 }) => {
       }
 
       reset() {
-        this.r = Math.random() * 9 + 3; // radius 3–12px
+        this.r = Math.random() * 2 + 1; // small spark radius 1–3px
         this.x = Math.random() * (W - this.r * 2) + this.r;
         this.y = H + this.r; // start below canvas
-        this.speedY = Math.random() * 0.8 + 0.3; // rise speed (slow, real)
-        this.wobbleSpeed = Math.random() * 0.04 + 0.01;
-        this.wobbleAmp = Math.random() * 8 + 2;
+        this.speedY = Math.random() * 1.5 + 1.0; // rise faster
+        this.wobbleSpeed = Math.random() * 0.08 + 0.04;
+        this.wobbleAmp = Math.random() * 4 + 1;
         this.wobblePhase = Math.random() * Math.PI * 2;
-        this.opacity = Math.random() * 0.4 + 0.5;
+        this.opacity = Math.random() * 0.6 + 0.4;
         this.age = 0;
       }
 
       update() {
         this.y -= this.speedY;
         this.age += 1;
-        // Horizontal wobble (Brownian-like)
-        this.x += Math.sin(this.age * this.wobbleSpeed + this.wobblePhase) * 0.5;
+        // Horizontal wobble
+        this.x += Math.sin(this.age * this.wobbleSpeed + this.wobblePhase) * 0.3;
         // Keep within bounds
         if (this.x < this.r) this.x = this.r;
         if (this.x > W - this.r) this.x = W - this.r;
@@ -68,17 +68,20 @@ const BubbleCanvas = ({ liquidColor, fillLevel, width = 320 }) => {
         ctx.save();
         ctx.globalAlpha = this.opacity;
 
-        // --- Simplified Fast Draw ---
+        // Glowing cyan/branded spark
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = `rgb(${tintR},${tintG},${tintB})`;
+        
         ctx.beginPath();
         ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${tintR},${tintG},${tintB},0.4)`;
+        ctx.fillStyle = '#ffffff'; // White core
         ctx.fill();
 
+        // Secondary glow ring
         ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(255,255,255,0.5)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
+        ctx.arc(x, y, r * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${tintR},${tintG},${tintB},0.3)`;
+        ctx.fill();
 
         ctx.restore();
       }

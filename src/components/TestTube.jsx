@@ -59,26 +59,64 @@ const TestTube = ({
         {/* ── CYLINDRICAL GLASS BODY ── */}
         <div className={`pod-glass ${isGlassVisible ? 'glass-risen' : 'glass-hidden'}`}>
 
+          {/* Hologram scanline laser */}
+          {isGlassVisible && <div className="hologram-scanline"></div>}
+
           {/* Floating Specimen / Hologram */}
           <div className={`floating-entity ${isEntityVisible ? 'entity-visible' : 'entity-hidden'}`}>
-            {isFlagship ? (
-              <>
-                <img
-                  src="https://shramico.com/Shramico_logo.jpeg"
-                  alt="Shramico Logo"
-                  className="shramico-logo"
-                />
-                <div className="hologram-text" style={{ marginTop: '18px' }}>
-                  <div className="hologram-title">{productName}</div>
-                  <div className="hologram-status">{status}</div>
+            <div className="hologram-graphic">
+              {productName === 'Shramico' && (
+                <div className="holo-planetary-system">
+                  <div className="holo-sphere">
+                    <img
+                      src="https://shramico.com/Shramico_logo.jpeg"
+                      alt="Shramico Logo"
+                      className="shramico-logo"
+                    />
+                  </div>
+                  <div className="holo-orbit orbit-1"></div>
+                  <div className="holo-orbit orbit-2"></div>
                 </div>
-              </>
-            ) : (
-              <div className="hologram-text">
-                <div className="hologram-title">{productName}</div>
-                <div className="hologram-status">{status}</div>
-              </div>
-            )}
+              )}
+              {productName === 'Project Nova' && (
+                <div className="holo-star-prism">
+                  <div className="star-pane pane-1">
+                    <svg viewBox="0 0 24 24" className="hologram-svg-icon" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                  </div>
+                  <div className="star-pane pane-2">
+                    <svg viewBox="0 0 24 24" className="hologram-svg-icon" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                  </div>
+                  <div className="star-ring ring-1"></div>
+                  <div className="star-ring ring-2"></div>
+                </div>
+              )}
+              {productName === 'Project Aegis' && (
+                <div className="holo-cube">
+                  <div className="cube-face front"><div className="face-grid"></div></div>
+                  <div className="cube-face back"><div className="face-grid"></div></div>
+                  <div className="cube-face left"><div className="face-grid"></div></div>
+                  <div className="cube-face right"><div className="face-grid"></div></div>
+                  <div className="cube-face top"><div className="face-grid"></div></div>
+                  <div className="cube-face bottom"><div className="face-grid"></div></div>
+                </div>
+              )}
+              {productName === 'Project Titan' && (
+                <div className="holo-gyroscope">
+                  <div className="gyro-ring ring-x"></div>
+                  <div className="gyro-ring ring-y"></div>
+                  <div className="gyro-ring ring-z"></div>
+                  <div className="gyro-core"></div>
+                </div>
+              )}
+            </div>
+            <div className="hologram-text" style={{ marginTop: '18px' }}>
+              <div className="hologram-title">{productName}</div>
+              <div className="hologram-status">{status}</div>
+            </div>
           </div>
 
           {/* Liquid fill */}
@@ -86,10 +124,10 @@ const TestTube = ({
             className="pod-liquid"
             style={{
               height: `${fill}%`,
-              background: `linear-gradient(to bottom, ${liquidColor}dd 0%, ${darkerColor} 100%)`,
+              background: `linear-gradient(to top, ${liquidColor}99 0%, ${liquidColor}11 75%, transparent 100%)`,
             }}
           >
-            <div className="liquid-surface" style={{ background: liquidColor }}></div>
+            <div className="liquid-surface" style={{ background: '#ffffff', boxShadow: `0 0 15px ${liquidColor}` }}></div>
           </div>
 
           {/* Photorealistic canvas bubbles */}
@@ -97,7 +135,7 @@ const TestTube = ({
             <BubbleCanvas liquidColor={liquidColor} fillLevel={fill} width={260} />
           )}
 
-          {/* Glass specular streaks */}
+          {/* Glass specular highlights */}
           <div className="glass-highlight"></div>
           <div className="glass-highlight-2"></div>
         </div>

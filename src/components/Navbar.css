@@ -27,6 +27,55 @@
   align-items: center;
 }
 
+.nav-logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-right: 12px;
+}
+
+.logo-ring {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px dashed rgba(6, 182, 212, 0.6);
+  animation: navbar-logo-rotate 10s linear infinite;
+}
+
+@keyframes navbar-logo-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.logo-circle {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #0f172a;
+  border: 1.5px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+  z-index: 2;
+}
+
+.nav-logo-svg {
+  width: 14px;
+  height: 14px;
+  color: #06b6d4;
+  filter: drop-shadow(0 0 3px #06b6d4);
+}
+
 .nav-logo span {
   font-family: 'Orbitron', sans-serif;
   font-size: 1.4rem;

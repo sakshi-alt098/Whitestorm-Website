@@ -2,6 +2,102 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import TestTube from './TestTube';
 import CentralReactor from './CentralReactor';
 
+const PRODUCT_FEATURES = {
+  0: {
+    left: [
+      { icon: 'sound', label: 'Edge Sync', desc: 'Real-time multi-node synchronization.' },
+      { icon: 'battery', label: 'Zero-Latency', desc: 'Sub-millisecond processing pipelines.' },
+      { icon: 'leaf', label: 'Secure Core', desc: 'End-to-end quantum encryption.' }
+    ],
+    right: [
+      { icon: 'build', label: 'Auto-Scaling', desc: 'Dynamic microservices orchestration.' },
+      { icon: 'bluetooth', label: 'Legacy Bridges', desc: 'Universal API enterprise adaptors.' },
+      { icon: 'comfort', label: 'AI Routing', desc: 'Cognitive traffic load balancing.' }
+    ]
+  },
+  1: {
+    left: [
+      { icon: 'sound', label: 'High Compute', desc: 'GPU-accelerated cloud operations.' },
+      { icon: 'battery', label: 'Resource Alloc', desc: 'Dynamic memory & CPU scheduling.' },
+      { icon: 'leaf', label: 'Rust Engine', desc: 'Memory-safe backend execution.' }
+    ],
+    right: [
+      { icon: 'build', label: 'gRPC Core', desc: 'Ultra-fast inter-service communication.' },
+      { icon: 'bluetooth', label: 'Data Lake', desc: 'Distributed petabyte-scale storage.' },
+      { icon: 'comfort', label: 'Neural Mesh', desc: 'Integrated deep learning nodes.' }
+    ]
+  },
+  2: {
+    left: [
+      { icon: 'sound', label: 'Threat Shield', desc: 'Adaptive machine-learning firewall.' },
+      { icon: 'battery', label: 'IPS Auditing', desc: 'Continuous deep packet monitoring.' },
+      { icon: 'leaf', label: 'Zero-Trust', desc: 'Continuous authentication loops.' }
+    ],
+    right: [
+      { icon: 'build', label: 'SSO Mesh', desc: 'Decentralized cryptographic identities.' },
+      { icon: 'bluetooth', label: 'Ledger Audit', desc: 'Immutable blockchain access logs.' },
+      { icon: 'comfort', label: 'WAF Guard', desc: 'Real-time web exploit prevention.' }
+    ]
+  },
+  3: {
+    left: [
+      { icon: 'sound', label: 'Deep Learning', desc: 'Proprietary LLM training pipelines.' },
+      { icon: 'battery', label: 'Vector DB', desc: 'Semantic search at scale.' },
+      { icon: 'leaf', label: 'RAG Engines', desc: 'Context-rich prompt synthesizers.' }
+    ],
+    right: [
+      { icon: 'build', label: 'Autonomous APIs', desc: 'Self-executing agent task runners.' },
+      { icon: 'bluetooth', label: 'NLP Parser', desc: 'Multi-lingual intent recognition.' },
+      { icon: 'comfort', label: 'Model Ops', desc: 'Continuous learning feedback loops.' }
+    ]
+  }
+};
+
+const HologramIcon = ({ type }) => {
+  switch (type) {
+    case 'sound':
+      return (
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 2v20M17 5v14M22 9v6M7 5v14M2 9v6" />
+        </svg>
+      );
+    case 'battery':
+      return (
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="2" y="7" width="16" height="10" rx="2" ry="2" />
+          <line x1="22" y1="11" x2="22" y2="13" />
+        </svg>
+      );
+    case 'leaf':
+      return (
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2 22c1.25-6.7 4-11.6 11-16 2.5-1.5 5-2 8-2-.5 4.5-1.5 7-4.5 10.5-4 4.5-9 6-14.5 7.5zM2 22s5-3 10-3" />
+        </svg>
+      );
+    case 'build':
+      return (
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        </svg>
+      );
+    case 'bluetooth':
+      return (
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 2v20l5-5-10-10 5-5z" />
+        </svg>
+      );
+    case 'comfort':
+      return (
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+};
+
 const PRODUCTS = [
   { id: 0, name: 'Shramico',      status: 'Flagship Platform',  color: '#22c55e', fillLevel: 85, isFlagship: true  },
   { id: 1, name: 'Project Nova',  status: 'In Development',     color: '#3b82f6', fillLevel: 45, isFlagship: false },
@@ -16,6 +112,13 @@ const RADIUS = 420;
 const LabEnvironment = ({ startAssembly = true }) => {
   const [activeIndex, setActiveIndex] = useState(0); 
   const [assemblyPhase, setAssemblyPhase] = useState(startAssembly ? 0 : -1);
+  const [flash, setFlash] = useState(false);
+
+  useEffect(() => {
+    setFlash(true);
+    const timer = setTimeout(() => setFlash(false), 400);
+    return () => clearTimeout(timer);
+  }, [activeIndex]);
   
   // Handle the physical assembly sequence when startAssembly flips to true
   useEffect(() => {
@@ -189,7 +292,7 @@ const LabEnvironment = ({ startAssembly = true }) => {
 
   return (
     <div
-      className="lab-environment"
+      className={`lab-environment ${flash ? 'lightning-flash' : ''}`}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
@@ -315,6 +418,36 @@ const LabEnvironment = ({ startAssembly = true }) => {
       {/* Hide UI controls until assembly finishes */}
       {assemblyPhase >= 4 && (
         <>
+          {/* Glassmorphic Side Features Panel (Left) */}
+          <div className="hologram-features-panel left" key={`left-${activeIndex}`}>
+            {PRODUCT_FEATURES[activeIndex].left.map((feat, i) => (
+              <div key={i} className="hologram-card" style={{ '--card-idx': i }}>
+                <div className="card-icon" style={{ color: activeColor }}>
+                  <HologramIcon type={feat.icon} />
+                </div>
+                <div className="card-info">
+                  <h5>{feat.label}</h5>
+                  <p>{feat.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Glassmorphic Side Features Panel (Right) */}
+          <div className="hologram-features-panel right" key={`right-${activeIndex}`}>
+            {PRODUCT_FEATURES[activeIndex].right.map((feat, i) => (
+              <div key={i} className="hologram-card" style={{ '--card-idx': i }}>
+                <div className="card-icon" style={{ color: activeColor }}>
+                  <HologramIcon type={feat.icon} />
+                </div>
+                <div className="card-info">
+                  <h5>{feat.label}</h5>
+                  <p>{feat.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
           <div className="dot-indicators">
             {PRODUCTS.map((p, i) => (
               <button

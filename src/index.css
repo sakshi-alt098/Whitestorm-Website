@@ -213,14 +213,12 @@ h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  /* Brushed Aluminum Texture */
-  background: 
-    repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(150,150,150,0.03) 2px, rgba(150,150,150,0.03) 4px),
-    radial-gradient(circle at center, #ffffff 0%, #e5e7eb 70%, #d1d5db 100%);
-  border: 4px solid #b0bcd4;
+  background: radial-gradient(circle at center, #1e293b 0%, #0f172a 75%, #020617 100%);
+  border: 4px solid #334155;
   box-shadow: 
-    inset 0 0 80px rgba(0,0,0,0.05),
-    inset 0 0 10px rgba(255,255,255,0.6);
+    inset 0 0 100px rgba(0,0,0,0.8),
+    inset 0 0 30px rgba(6, 182, 212, 0.3),
+    0 0 60px rgba(6, 182, 212, 0.15);
 }
 
 /* The solid 3D extrusion slices */
@@ -228,12 +226,12 @@ h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: #e2e8f0; /* The side wall color */
-  border: 1px solid #cbd5e1; /* Adds horizontal machining lines */
+  background: #0f172a; /* Dark base side walls */
+  border: 1px solid #1e293b;
 }
 /* The very bottom slice adds the floor shadow */
 .base-slice:last-child {
-  box-shadow: 0 0 40px 10px rgba(0,0,0,0.12);
+  box-shadow: 0 0 50px 15px rgba(0,0,0,0.4);
 }
 
 /* Reactor Connections (SVG) */
@@ -241,16 +239,16 @@ h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
   position: absolute; inset: 0; width: 100%; height: 100%;
 }
 .pipe-outer {
-  fill: none; stroke: #e5e7eb; stroke-width: 12;
-  filter: drop-shadow(0 3px 3px rgba(0,0,0,0.05));
+  fill: none; stroke: #1e293b; stroke-width: 8;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
 }
 .pipe-inner {
-  fill: none; stroke-width: 4;
-  stroke-dasharray: 20 10;
-  animation: pipe-flow 2s linear infinite;
+  fill: none; stroke-width: 3;
+  stroke-dasharray: 15 8;
+  animation: pipe-flow 1.5s linear infinite;
 }
 @keyframes pipe-flow {
-  from { stroke-dashoffset: 30; }
+  from { stroke-dashoffset: 23; }
   to { stroke-dashoffset: 0; }
 }
 
@@ -261,36 +259,38 @@ h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
   top: 50%; left: 50%;
   margin-left: -140px; margin-top: -140px;
   border-radius: 50%;
-  background: #f8fafc;
+  background: #0b0f19;
   box-shadow: 
-    inset 0 15px 40px rgba(0,0,0,0.04),
-    0 2px 2px rgba(255,255,255,0.9);
-  border: 3px solid #e2e8f0;
+    inset 0 10px 30px rgba(0,0,0,0.7),
+    0 0 20px rgba(6, 182, 212, 0.2);
+  border: 3px solid #1e293b;
 }
 .socket-grip {
   position: absolute; inset: 15px; border-radius: 50%;
-  border: 8px solid #cbd5e1;
-  border-top-color: #94a3b8; border-bottom-color: #94a3b8;
+  border: 6px solid #1e293b;
+  border-top-color: #06b6d4; border-bottom-color: #06b6d4;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.1);
 }
 .socket-brackets {
   position: absolute; inset: 0; border-radius: 50%;
 }
 .bracket {
-  position: absolute; top: 50%; width: 20px; height: 40px;
-  background: #cbd5e1; margin-top: -20px;
-  border: 1px solid #94a3b8; border-radius: 4px;
+  position: absolute; top: 50%; width: 16px; height: 32px;
+  background: #1e293b; margin-top: -16px;
+  border: 1px solid #334155; border-radius: 3px;
 }
-.bracket.left { left: -10px; }
-.bracket.right { right: -10px; }
+.bracket.left { left: -8px; }
+.bracket.right { right: -8px; }
 
 .socket-number {
   position: absolute; top: 30px; left: 50%; transform: translateX(-50%);
-  color: rgba(0,0,0,0.2); font-family: 'Orbitron', sans-serif;
+  color: rgba(6, 182, 212, 0.4); font-family: 'Orbitron', sans-serif;
   font-size: 1rem; font-weight: bold; letter-spacing: 2px;
+  text-shadow: 0 0 5px rgba(6, 182, 212, 0.3);
 }
 .socket-ambient-shadow {
   position: absolute; inset: -40px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,0,0,0.08) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 40%, transparent 70%);
   pointer-events: none;
 }
 
@@ -385,12 +385,7 @@ h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
 
 /* ─── TOP CAP ─── */
 .pod-cap {
-  position: relative;
-  width: 110%;
-  z-index: 20;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: none !important;
 }
 
 .cap-body {
@@ -412,21 +407,22 @@ h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
     repeating-linear-gradient(
       0deg,
       transparent 0px, transparent 3px,
-      rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px
+      rgba(255,255,255,0.02) 3px, rgba(255,255,255,0.02) 4px
     ),
     /* radial sheen — lighter in center */
-    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.4) 0%, transparent 70%),
-    /* left-to-right metallic sweep */
+    radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.1) 0%, transparent 70%),
+    /* left-to-right metallic sweep (dark obsidian chrome) */
     linear-gradient(90deg,
-      var(--metal-dark)      0%,
-      var(--metal-mid)       12%,
-      var(--metal-light)     28%,
-      var(--metal-shine)     48%,
-      var(--metal-light)     62%,
-      var(--metal-mid)       78%,
-      var(--metal-dark)      100%
+      #030712      0%,
+      #0f172a       12%,
+      #1e293b     28%,
+      #334155     48%,
+      #1e293b     62%,
+      #0f172a       78%,
+      #030712      100%
     );
   position: relative;
+  border: 1px solid #1e293b;
 }
 
 /* Inset groove at cap edge closest to glass */
@@ -435,7 +431,7 @@ h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
   position: absolute;
   left: 0; right: 0;
   height: 5px;
-  background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.03) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 100%);
 }
 .pod-cap.top .cap-face::after    { bottom: 0; }
 .pod-cap.bottom .cap-face::after { top: 0; }
@@ -445,13 +441,13 @@ h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
   width: 96%;
   height: 16px;
   background: linear-gradient(90deg,
-    var(--metal-dark)  0%,
-    var(--metal-base)  10%,
-    var(--metal-mid)   30%,
-    var(--metal-light) 50%,
-    var(--metal-mid)   70%,
-    var(--metal-base)  90%,
-    var(--metal-dark)  100%
+    #030712  0%,
+    #0f172a  10%,
+    #1e293b   30%,
+    #334155 50%,
+    #1e293b   70%,
+    #0f172a  90%,
+    #030712  100%
   );
   position: relative;
   z-index: 2;
@@ -460,7 +456,7 @@ h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
 .cap-collar::before {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.1) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(255,255,255,0.05) 100%);
 }
 .pod-cap.top    .cap-collar { border-radius: 0 0 3px 3px; order: 2; }
 .pod-cap.bottom .cap-collar { border-radius: 3px 3px 0 0; order: 1; }
@@ -502,21 +498,9 @@ h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
   position: relative;
   overflow: hidden;
   z-index: 5;
-  background:
-    /* soft white/gray interior lighting */
-    radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%);
-  box-shadow:
-    /* soft cylinder edge shadows */
-    inset  40px 0 50px rgba(0,0,0,0.08),
-    inset -40px 0 50px rgba(0,0,0,0.08),
-    /* clean edge reflections */
-    inset  3px 0 0 rgba(255,255,255,0.6),
-    inset -2px 0 0 rgba(255,255,255,0.3),
-    /* subtle outer ambient glow matching liquid */
-    0 10px 30px rgba(0,0,0,0.05),
-    0 0 25px color-mix(in srgb, var(--lc) 15%, transparent);
-  border-left:  none;
-  border-right: none;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 /* Outer glass wall — a semitransparent overlay that gives thickness */
@@ -524,81 +508,60 @@ h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
   content: '';
   position: absolute; inset: 0; z-index: 40;
   pointer-events: none;
-  background:
-    /* left wall */
-    linear-gradient(90deg,
-      rgba(180,210,255,0.12) 0%,
-      rgba(180,210,255,0.06) 6%,
-      transparent 18%
-    ),
-    /* right wall */
-    linear-gradient(270deg,
-      rgba(180,210,255,0.08) 0%,
-      rgba(180,210,255,0.03) 6%,
-      transparent 18%
-    ),
-    /* condensation fog at top */
-    linear-gradient(180deg,
-      rgba(255,255,255,0.15) 0%,
-      rgba(255,255,255,0.05) 8%,
-      transparent 20%
-    ),
-    /* condensation fog at bottom */
-    linear-gradient(0deg,
-      rgba(255,255,255,0.10) 0%,
-      transparent 12%
-    );
+  background: none;
 }
 
-/* Main vertical specular streak — the bright reflection running top to bottom */
+/* Holographic vertical lasers */
 .glass-highlight {
   position: absolute; top: 0; bottom: 0;
-  left: 14%; width: 9%;
+  left: 20%; width: 2px;
   z-index: 38; pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(255,255,255,0.0)  0%,
-    rgba(255,255,255,0.22) 10%,
-    rgba(255,255,255,0.35) 50%,
-    rgba(255,255,255,0.22) 90%,
-    rgba(255,255,255,0.0)  100%
-  );
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, white 30%, white 70%, transparent 100%);
-  mask-image: linear-gradient(90deg, transparent 0%, white 30%, white 70%, transparent 100%);
+  background: rgba(6,182,212,0.35);
+  box-shadow: 0 0 10px rgba(6,182,212,0.6);
 }
 
-/* Secondary faint streak on the right (back-wall reflection) */
 .glass-highlight-2 {
   position: absolute; top: 0; bottom: 0;
-  right: 12%; width: 5%;
+  right: 20%; width: 1px;
   z-index: 38; pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(255,255,255,0.10) 30%,
-    rgba(255,255,255,0.10) 70%,
-    transparent 100%
-  );
+  background: rgba(6,182,212,0.2);
+  box-shadow: 0 0 8px rgba(6,182,212,0.3);
 }
 
-/* ─── LIQUID ─── */
+/* ─── LIQUID (Holographic Laser Beam) ─── */
 .pod-liquid {
-  position: absolute; bottom: 0; left: 0;
-  width: 100%;
+  position: absolute; bottom: 0; left: 50%;
+  width: 160px;
+  transform: translateX(-50%);
   transition: height 1.8s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 10;
-  box-shadow: 0 -20px 50px color-mix(in srgb, var(--lc) 30%, transparent);
-  opacity: 0.90;
-  filter: url(#liquid-turbulence);
+  clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+  mask-image: linear-gradient(to top, white 20%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, white 20%, transparent 100%);
+  pointer-events: none;
 }
 
 /* animated surface line */
 .liquid-surface {
-  position: absolute; top: -3px; left: 0;
-  width: 100%; height: 6px;
-  opacity: 0.65; border-radius: 50%;
-  filter: blur(2px);
+  position: absolute; top: 0; left: 15%;
+  width: 70%; height: 2px;
+  opacity: 0.85;
   animation: surface-shimmer 3.5s ease-in-out infinite;
+}
+
+/* Scanline moving laser overlay */
+.hologram-scanline {
+  position: absolute;
+  left: 0; width: 100%; height: 6px;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
+  box-shadow: 0 0 12px var(--lc);
+  opacity: 0.85;
+  z-index: 39;
+  animation: scanline-move 4s linear infinite;
+}
+@keyframes scanline-move {
+  0% { top: -10%; }
+  100% { top: 110%; }
 }
 @keyframes surface-shimmer {
   0%,100% { transform: scaleX(1)   translateY(0);   opacity: 0.5; }
@@ -648,112 +611,234 @@ h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
   width: 90%; text-align: center;
 }
 @keyframes entity-float {
-  0%,100% { transform: translate(-50%, calc(-50% - 12px)); }
-  50%      { transform: translate(-50%, calc(-50% + 12px)); }
+  0%,100% { transform: translate(-50%, calc(-50% - 18px)); }
+  50%      { transform: translate(-50%, calc(-50% + 18px)); }
 }
 
-.shramico-logo {
-  width: 130px; height: 130px; object-fit: contain;
-  border-radius: 50%;
-  background: #fff;
-  border: 5px solid rgba(255,255,255,0.9);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), 0 0 20px var(--lc);
-  animation: logo-pulse 3.2s infinite alternate;
+.hologram-graphic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 140px; height: 140px;
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
-@keyframes logo-pulse {
-  0%   { filter: brightness(1.0) drop-shadow(0 0 15px var(--lc)); }
-  100% { filter: brightness(1.10) drop-shadow(0 0 35px var(--lc)); }
+
+/* ─── 3D PLANETARY SYSTEM (SHRAMICO) ─── */
+.holo-planetary-system {
+  position: relative;
+  width: 140px; height: 140px;
+  transform-style: preserve-3d;
+  animation: float-rotate-planetary 12s linear infinite;
+}
+.holo-sphere {
+  position: absolute;
+  top: 15px; left: 15px;
+  width: 110px; height: 110px;
+  transform-style: preserve-3d;
+}
+.shramico-logo {
+  width: 110px; height: 110px; object-fit: contain;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 25px var(--lc);
+  filter: sepia(1) hue-rotate(100deg) saturate(3.5) brightness(0.9);
+  /* Sphere stays oriented facing front while rings orbit around it */
+  transform: rotateY(0deg);
+}
+.holo-orbit {
+  position: absolute;
+  top: 0; left: 0;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  border: 2px solid var(--lc);
+  box-shadow: 0 0 10px var(--lc);
+  transform-style: preserve-3d;
+}
+.orbit-1 {
+  transform: rotateX(70deg) rotateY(15deg);
+  animation: rotate-orbit-1 8s linear infinite;
+}
+.orbit-2 {
+  transform: rotateX(-70deg) rotateY(-15deg);
+  animation: rotate-orbit-2 6s linear infinite;
+}
+
+@keyframes float-rotate-planetary {
+  0% { transform: rotateY(0deg) translateY(0); }
+  50% { transform: rotateY(180deg) translateY(-10px); }
+  100% { transform: rotateY(360deg) translateY(0); }
+}
+@keyframes rotate-orbit-1 {
+  0% { transform: rotateX(70deg) rotateY(15deg) rotateZ(0deg); }
+  100% { transform: rotateX(70deg) rotateY(15deg) rotateZ(360deg); }
+}
+@keyframes rotate-orbit-2 {
+  0% { transform: rotateX(-70deg) rotateY(-15deg) rotateZ(360deg); }
+  100% { transform: rotateX(-70deg) rotateY(-15deg) rotateZ(0deg); }
+}
+
+/* ─── 3D STAR PRISM (PROJECT NOVA) ─── */
+.holo-star-prism {
+  position: relative;
+  width: 120px; height: 120px;
+  transform-style: preserve-3d;
+  animation: star-prism-rotate 10s linear infinite;
+}
+.star-pane {
+  position: absolute;
+  top: 10px; left: 10px;
+  width: 100px; height: 100px;
+  transform-style: preserve-3d;
+}
+.star-pane.pane-1 {
+  transform: rotateY(0deg);
+}
+.star-pane.pane-2 {
+  transform: rotateY(90deg);
+}
+.hologram-svg-icon {
+  width: 100px; height: 100px;
+  color: #ffffff;
+  filter: drop-shadow(0 0 15px var(--lc));
+}
+.star-ring {
+  position: absolute;
+  top: -5px; left: -5px;
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  border: 1px dashed var(--lc);
+  box-shadow: 0 0 8px var(--lc);
+}
+.star-ring.ring-1 {
+  transform: rotateX(90deg);
+}
+.star-ring.ring-2 {
+  transform: rotateY(90deg) rotateX(90deg);
+}
+
+@keyframes star-prism-rotate {
+  0% { transform: rotateY(0deg) translateY(0); }
+  50% { transform: rotateY(180deg) translateY(-8px); }
+  100% { transform: rotateY(360deg) translateY(0); }
+}
+
+/* ─── 3D CUBE (PROJECT AEGIS) ─── */
+.holo-cube {
+  position: relative;
+  width: 80px; height: 80px;
+  transform-style: preserve-3d;
+  animation: cube-rotate 10s linear infinite;
+}
+.cube-face {
+  position: absolute;
+  width: 80px; height: 80px;
+  background: rgba(168, 85, 247, 0.15);
+  border: 2px solid var(--lc);
+  box-shadow: inset 0 0 15px rgba(168, 85, 247, 0.4), 0 0 10px rgba(168, 85, 247, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+}
+.cube-face.front  { transform: rotateY(0deg) translateZ(40px); }
+.cube-face.back   { transform: rotateY(180deg) translateZ(40px); }
+.cube-face.left   { transform: rotateY(-90deg) translateZ(40px); }
+.cube-face.right  { transform: rotateY(90deg) translateZ(40px); }
+.cube-face.top    { transform: rotateX(90deg) translateZ(40px); }
+.cube-face.bottom { transform: rotateX(-90deg) translateZ(40px); }
+.face-grid {
+  width: 60px;
+  height: 60px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+@keyframes cube-rotate {
+  0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+}
+
+/* ─── 3D GYROSCOPE (PROJECT TITAN) ─── */
+.holo-gyroscope {
+  position: relative;
+  width: 120px; height: 120px;
+  transform-style: preserve-3d;
+  animation: gyro-base-rotate 16s linear infinite;
+}
+.gyro-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid var(--lc);
+  box-shadow: 0 0 12px var(--lc);
+}
+.gyro-ring.ring-x {
+  width: 120px; height: 120px;
+  transform: rotateX(90deg);
+  animation: gyro-rotate-x 6s linear infinite;
+}
+.gyro-ring.ring-y {
+  width: 100px; height: 100px;
+  top: 10px; left: 10px;
+  transform: rotateY(90deg);
+  animation: gyro-rotate-y 8s linear infinite;
+}
+.gyro-ring.ring-z {
+  width: 80px; height: 80px;
+  top: 20px; left: 20px;
+  transform: rotateZ(90deg);
+  animation: gyro-rotate-z 4s linear infinite;
+}
+.gyro-core {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 48px; left: 48px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 25px #ffffff, 0 0 45px var(--lc);
+}
+
+@keyframes gyro-base-rotate {
+  0% { transform: rotateY(0deg) rotateX(20deg); }
+  100% { transform: rotateY(360deg) rotateX(20deg); }
+}
+@keyframes gyro-rotate-x {
+  0% { transform: rotateX(90deg) rotateY(0deg); }
+  100% { transform: rotateX(90deg) rotateY(360deg); }
+}
+@keyframes gyro-rotate-y {
+  0% { transform: rotateY(90deg) rotateZ(0deg); }
+  100% { transform: rotateY(90deg) rotateZ(-360deg); }
+}
+@keyframes gyro-rotate-z {
+  0% { transform: rotateZ(0deg) rotateX(90deg); }
+  100% { transform: rotateZ(360deg) rotateX(90deg); }
 }
 
 .hologram-text {
-  margin-top: 24px; color: #1d1d1f;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 0 12px color-mix(in srgb, var(--lc) 30%, transparent);
+  margin-top: 24px; color: #ffffff;
+  text-shadow: 0 0 10px var(--lc), 0 0 20px var(--lc);
   position: relative;
 }
 .hologram-text::after {
   content: ''; position: absolute; inset: 0;
-  background: repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  background: repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(255,255,255,0.05) 2px, rgba(255,255,255,0.05) 4px);
   pointer-events: none;
 }
-.hologram-title  { font-family: 'Orbitron',sans-serif; font-size: 1.7rem; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; }
+.hologram-title  { font-family: 'Orbitron',sans-serif; font-size: 1.6rem; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; }
 .hologram-status {
   font-size: 0.75rem; letter-spacing: 3px; margin-top: 8px;
   padding: 5px 14px; border: 1px solid var(--lc);
-  background: rgba(255,255,255,0.85); display: inline-block;
-  color: var(--lc); box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  background: rgba(10,15,25,0.7); display: inline-block;
+  color: var(--lc); box-shadow: 0 0 12px var(--lc);
   font-weight: 600;
-}
-
-/* ─── PIPES ─── */
-.pipe-wrap {
-  position: relative;
-  width: 40px;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-}
-
-/* The main pipe cylinder */
-.pipe {
-  width: 40px;
-  background:
-    /* Ribbed texture */
-    repeating-linear-gradient(
-      0deg,
-      rgba(0,0,0,0.08)   0px,
-      rgba(0,0,0,0.08)   3px,
-      rgba(0,0,0,0)      3px,
-      rgba(0,0,0,0)      10px
-    ),
-    /* Cylindrical shading: bright center-left, soft silver at edges */
-    linear-gradient(90deg,
-      #9ca3af  0%,
-      #d1d5db  10%,
-      #e5e7eb  22%,
-      #ffffff  35%,
-      #e5e7eb  52%,
-      #d1d5db  70%,
-      #9ca3af  100%
-    );
-  position: relative;
-  /* Soft shadow and crisp edge highlights */
-  box-shadow:
-    inset  5px 0 8px rgba(255,255,255,0.4),
-    inset -5px 0 8px rgba(0,0,0,0.1),
-    inset  2px 0 0 rgba(255,255,255,0.6),
-    0 4px 12px rgba(0,0,0,0.08);
   border-radius: 4px;
 }
 
-.pipe.top-pipe    { height: 120px; }
-.pipe.bottom-pipe { height: 120px; }
-
-/* Liquid flowing inside the pipe */
-.pipe::before {
-  content: '';
-  position: absolute;
-  left: 50%; width: 35%;
-  transform: translateX(-50%);
-  top: 0; bottom: 0;
-  background: var(--lc);
-  filter: blur(5px);
-  opacity: 0.55;
-  animation: pipe-flow 1.8s infinite alternate ease-in-out;
-}
-@keyframes pipe-flow {
-  0%   { opacity: 0.35; filter: blur(4px)  brightness(0.9); }
-  100% { opacity: 0.75; filter: blur(8px)  brightness(1.4); }
-}
-
-/* Connector ring (flange) where pipe meets the cap */
-.pipe-flange {
-  width: 56px; height: 10px;
-  background: linear-gradient(90deg,
-    var(--metal-dark) 0%, var(--metal-light) 30%, var(--metal-shine) 50%, var(--metal-light) 70%, var(--metal-dark) 100%
-  );
-  border-radius: 3px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  position: relative; z-index: 3;
+/* ─── PIPES (High-Tech Laser Wires) ─── */
+.pipe-wrap {
+  display: none !important;
 }
 
 /* ─── FLOOR SHADOW ─── */
@@ -775,4 +860,160 @@ h1, h2, h3 { font-family: 'Orbitron', sans-serif; }
 @keyframes pulse-glow-logo {
   0%   { filter: brightness(1)   drop-shadow(0 0 20px var(--lc)); }
   100% { filter: brightness(1.2) drop-shadow(0 0 40px var(--lc)); }
+}
+
+/* ─── HOLOGRAM FEATURE PANEL UI ─── */
+.hologram-features-panel {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  z-index: 200;
+  pointer-events: auto;
+}
+
+.hologram-features-panel.left {
+  left: 60px;
+}
+
+.hologram-features-panel.right {
+  right: 60px;
+}
+
+.hologram-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 290px;
+  padding: 16px 20px;
+  background: rgba(10, 15, 30, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  opacity: 0;
+  animation: card-appear 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(var(--card-idx) * 0.15s);
+  transition: border-color 0.3s, background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.hologram-card:hover {
+  background: rgba(10, 15, 30, 0.65);
+  border-color: rgba(6, 182, 212, 0.35);
+  transform: translateY(-3px);
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.4),
+    0 0 15px rgba(6, 182, 212, 0.15);
+}
+
+@keyframes card-appear {
+  from {
+    opacity: 0;
+    transform: translateX(var(--slide-dir, -30px));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.hologram-features-panel.left .hologram-card {
+  --slide-dir: -35px;
+}
+
+.hologram-features-panel.right .hologram-card {
+  --slide-dir: 35px;
+}
+
+.card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 46px; height: 46px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  filter: drop-shadow(0 0 6px currentColor);
+  transition: filter 0.3s;
+}
+
+.hologram-card:hover .card-icon {
+  filter: drop-shadow(0 0 12px currentColor);
+}
+
+.card-icon svg {
+  width: 20px; height: 20px;
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-info h5 {
+  font-family: 'Orbitron', sans-serif;
+  color: #f3f4f6;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.card-info p {
+  color: #9ca3af;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Adjust layout on smaller viewports */
+@media (max-width: 1200px) {
+  .hologram-features-panel {
+    position: static;
+    transform: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    padding: 20px;
+    width: 100%;
+  }
+  .hologram-features-panel.left, 
+  .hologram-features-panel.right {
+    position: static;
+  }
+  .hologram-card {
+    width: calc(50% - 16px);
+    min-width: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hologram-card {
+    width: 100%;
+  }
+}
+
+/* Lightning strike flash */
+.lightning-flash::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(224, 242, 254, 0.4);
+  z-index: 150;
+  pointer-events: none;
+  animation: strike-flash-anim 0.35s ease-out;
+}
+
+@keyframes strike-flash-anim {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  15% { opacity: 0.2; }
+  25% { opacity: 0.9; }
+  100% { opacity: 0; }
 }
